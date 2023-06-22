@@ -24,6 +24,7 @@ export const appWithTranslation = (
   const AppWithTranslation = (props: AppProps) => {
     let i18n: I18NextClient | null = null
     let locale = null
+    let defaultNS = null
 
     if (props?.pageProps?._nextI18Next) {
       let { userConfig } = props.pageProps._nextI18Next
@@ -42,8 +43,9 @@ export const appWithTranslation = (
       }
 
       locale = initialLocale;
+      defaultNS = props.pageProps.defaultNS || userConfig.defaultNS
 
-      ({ i18n } = createClient({
+      ;({ i18n } = createClient({
         ...createConfig({
           ...userConfig,
           lng: initialLocale,
@@ -60,6 +62,7 @@ export const appWithTranslation = (
     return i18n !== null ? (
       <I18nextProvider
         i18n={i18n}
+        defaultNS={defaultNS}
       >
         <WrappedComponent
           key={locale}
